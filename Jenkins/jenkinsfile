@@ -3,12 +3,12 @@ pipeline {
     tools {
         jdk "JAVA_HOME"
         maven "MAVEN_HOME"
-
     }
     environment {
         DOCKER_IMAGE_NAME = 'ghassen52/devops_project'
         DOCKER_HUB_USERNAME = 'ghassen52'
         DOCKER_HUB_PASSWORD = 'dckr_pat_97iXDGLkPCUFhZM-MBG52yGRR9E'
+        SONARQUBE_HOST_URL = 'http://sonarqube:9002' // Assuming SonarQube is accessible at this URL
     }
     stages {
         stage('git Checkout') {
@@ -30,16 +30,25 @@ pipeline {
                 }
             }
         }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarQube Scanner'
+                    withSonarQubeEnv('SonarQube') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
         stage('Build and Push Image') {
             steps {
                 script {
-                        sh '''
-                            cd DevOps_Project
-                            docker build -t ${DOCKER_IMAGE_NAME} .
-                            docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
-                            docker push ${DOCKER_IMAGE_NAME}
-
-                        '''
+                    sh '''
+                        cd DevOps_Project
+                        docker build -t ${DOCKER_IMAGE_NAME} .
+                        docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+                        docker push ${DOCKER_IMAGE_NAME}
+                    '''
                 }
             }
         }
