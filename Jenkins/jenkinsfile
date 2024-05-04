@@ -31,11 +31,12 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
+                dir('DevOps_Project'){
                 script {
                     withSonarQubeEnv() {
                         sh "mvn clean verify -DskipTests sonar:sonar -Dsonar.projectKey=devopsSki -Dsonar.projectName='devopsSki'"
                     }
-                }
+                }}
             }
         }
         stage('Build and Push Image') {
