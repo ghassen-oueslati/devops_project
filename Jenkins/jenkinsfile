@@ -8,7 +8,6 @@ pipeline {
         DOCKER_IMAGE_NAME = 'ghassen52/devops_project'
         DOCKER_HUB_USERNAME = 'ghassen52'
         DOCKER_HUB_PASSWORD = 'dckr_pat_97iXDGLkPCUFhZM-MBG52yGRR9E'
-        SONARQUBE_HOST_URL = 'http://sonarqube:9002' // Assuming SonarQube is accessible at this URL
     }
     stages {
         stage('git Checkout') {
@@ -33,9 +32,8 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'SonarQube Scanner'
-                    withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                    withSonarQubeEnv() {
+                        sh "mvn clean verify -DskipTests sonar:sonar -Dsonar.projectKey=devopsSki -Dsonar.projectName='devopsSki'"
                     }
                 }
             }
