@@ -41,6 +41,11 @@ pipeline {
         //         }
         //     }
         // }
+        stage('Echo Pom Version') {
+            steps {
+                echo "POM Version: ${POM_VERSION}"
+            }
+        }
         stage('Deploy to Nexus Snapshots Repository') {
             when {
                 expression {
