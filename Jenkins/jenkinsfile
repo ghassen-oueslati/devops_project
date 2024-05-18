@@ -84,8 +84,7 @@ pipeline {
                             echo "GROUP_ID: ${env.GROUP_ID}"
                             echo "ARTIFACT_ID: ${env.ARTIFACT_ID}"
                             echo "DOCKER_IMAGE_NAME: ${DOCKER_IMAGE_NAME}"
-
-                            docker build --build-arg HOST_IP=172.20.10.9 --build-arg VERSION="${env.POM_VERSION}" --build-arg NEXUS_URL="${env.NEXUS_SNAPSHOT_URL}" --build-arg GROUP_ID="${env.GROUP_ID}" --build-arg ARTIFACT_ID="${env.ARTIFACT_ID}" -t "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}" .
+                            docker build --build-arg HOST_IP="172.20.10.9" --build-arg NEXUS_PORT="8081" --build-arg VERSION="${env.POM_VERSION}" --build-arg NEXUS_URL="${env.NEXUS_SNAPSHOT_URL}" --build-arg GROUP_ID="${env.GROUP_ID}" --build-arg ARTIFACT_ID="${env.ARTIFACT_ID}" -t "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}" .
                             docker login -u "${env.DOCKER_HUB_USERNAME}" -p "${env.DOCKER_HUB_PASSWORD}"
                             docker push "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}"
                         """
