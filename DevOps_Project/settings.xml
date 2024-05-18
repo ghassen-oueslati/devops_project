@@ -50,8 +50,4 @@
             </servers>
         </profile>
     </profiles>
-    <activeProfiles>
-        <activeProfile>snapshots-profile</activeProfile>
-        <!-- <activeProfile>releases-profile</activeProfile> Uncomment if you want to activate releases profile by default -->
-    </activeProfiles>
 </settings>

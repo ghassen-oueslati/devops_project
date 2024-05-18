@@ -62,11 +62,11 @@ pipeline {
                         echo "POM Version: ${POM_VERSION}"
                         if (POM_VERSION.endsWith('-SNAPSHOT')) {
                             sh '''
-                                mvn clean deploy -DskipTests -P nexus-deploy-snapshots -s settings.xml -X
+                                mvn clean deploy -DskipTests -P nexus-deploy-snapshots -s settings.xml
                             '''
                         } else {
                             sh '''
-                                mvn clean deploy -DskipTests -P nexus-deploy-releases -s settings.xml -X
+                                mvn clean deploy -DskipTests -P nexus-deploy-releases -s settings.xml
                             '''
                         }
                     }
