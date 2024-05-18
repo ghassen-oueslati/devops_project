@@ -77,15 +77,16 @@ pipeline {
             steps {
                 script {
                     dir('DevOps_Project') {
-                        echo "POM Version: ${env.POM_VERSION}"
+                        echo "POM Version: ${env.POM_VERSION}" // Accessing POM_VERSION
                         sh '''
-                            docker build --build-arg VERSION=${env.POM_VERSION} --build-arg NEXUS_URL=${NEXUS_SNAPSHOT_URL} --build-arg GROUP_ID=${GROUP_ID} --build-arg ARTIFACT_ID=${ARTIFACT_ID} -t ${DOCKER_IMAGE_NAME}:${env.POM_VERSION} .
-                            docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
-                            docker push ${DOCKER_IMAGE_NAME}:${env.POM_VERSION}
-                        ''' 
+                            docker build --build-arg VERSION="${env.POM_VERSION}" --build-arg NEXUS_URL="${NEXUS_SNAPSHOT_URL}" --build-arg GROUP_ID="${GROUP_ID}" --build-arg ARTIFACT_ID="${ARTIFACT_ID}" -t "${DOCKER_IMAGE_NAME}:${env.POM_VERSION}" .
+                            docker login -u "${DOCKER_HUB_USERNAME}" -p "${DOCKER_HUB_PASSWORD}"
+                            docker push "${DOCKER_IMAGE_NAME}:${env.POM_VERSION}"
+                        '''
                     }
                 }
             }
         }
+
     }
 }
