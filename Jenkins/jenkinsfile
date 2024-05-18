@@ -41,18 +41,18 @@ pipeline {
                 }
             }
         }
-        stage('Build and Push Image') {
-            steps {
-                script {
-                    sh '''
-                        cd DevOps_Project
-                        docker build -t ${DOCKER_IMAGE_NAME} .
-                        docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
-                        docker push ${DOCKER_IMAGE_NAME}
-                    '''
-                }
-            }
-        }
+        // stage('Build and Push Image') {
+        //     steps {
+        //         script {
+        //             sh '''
+        //                 cd DevOps_Project
+        //                 docker build -t ${DOCKER_IMAGE_NAME} .
+        //                 docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+        //                 docker push ${DOCKER_IMAGE_NAME}
+        //             '''
+        //         }
+        //     }
+        // }
         stage('Deploy to Maven Repository') {
             steps {
                 dir('DevOps_Project') {
