@@ -9,8 +9,8 @@ pipeline {
         DOCKER_HUB_USERNAME = 'ghassen52'
         DOCKER_HUB_PASSWORD = 'dckr_pat_97iXDGLkPCUFhZM-MBG52yGRR9E'
         POM_VERSION = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
-        MAVEN_REPO_USERNAME = admin
-        MAVEN_REPO_PASSWORD = admin
+        MAVEN_REPO_USERNAME = 'admin'
+        MAVEN_REPO_PASSWORD = 'admin'
         NEXUS_URL = 'http://localhost:8081/repository/maven-snapshots'
         GROUP_ID = 'tn.esprit'
         ARTIFACT_ID = 'DevOps_Project'
