@@ -9,10 +9,8 @@ pipeline {
         DOCKER_HUB_USERNAME = 'ghassen52'
         DOCKER_HUB_PASSWORD = 'dckr_pat_97iXDGLkPCUFhZM-MBG52yGRR9E'
         POM_VERSION = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
-        MAVEN_REPO_USERNAME = 'admin'
-        MAVEN_REPO_PASSWORD = 'admin'
-        NEXUS_SNAPSHOT_URL = 'http://localhost:8081/repository/maven-snapshots'
-        NEXUS_RELEASE_URL = 'http://localhost:8081/repository/maven-releases'
+        NEXUS_SNAPSHOT_URL = 'http://localhost:8081/repository/maven-snapshots/'
+        NEXUS_RELEASE_URL = 'http://localhost:8081/repository/maven-releases/'
         GROUP_ID = 'tn.esprit'
         ARTIFACT_ID = 'DevOps_Project'
     }
@@ -20,6 +18,13 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/ghassen-oueslati/devops_project'
+            }
+        }
+        stage('Echo POM Version') {
+            steps {
+                script {
+                    echo "POM Version: ${POM_VERSION}"
+                }
             }
         }
         stage('Code Compile') {
@@ -53,13 +58,11 @@ pipeline {
                     script {
                         if (POM_VERSION.endsWith('-SNAPSHOT')) {
                             sh '''
-                                mvn clean deploy -DskipTests -P nexus-deploy \
-                                -DaltDeploymentRepository=snapshot-repo::default::${NEXUS_SNAPSHOT_URL}
+                                mvn clean deploy -DskipTests -P nexus-deploy-snapshots
                             '''
                         } else {
                             sh '''
-                                mvn clean deploy -DskipTests -P nexus-deploy \
-                                -DaltDeploymentRepository=release-repo::default::${NEXUS_RELEASE_URL}
+                                mvn clean deploy -DskipTests -P nexus-deploy-releases
                             '''
                         }
                     }

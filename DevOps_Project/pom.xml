@@ -70,7 +70,7 @@
         </plugins>
     </build>
 
-    <distributionManagement>
+<distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
             <url>http://localhost:8081/repository/maven-snapshots/</url>
@@ -83,7 +83,10 @@
 
     <profiles>
         <profile>
-            <id>nexus-deploy</id>
+            <id>nexus-deploy-snapshots</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -98,6 +101,21 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>nexus-deploy-releases</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>3.0.0-M1</version>
+                        <configuration>
+                            <url>http://localhost:8081/repository/maven-releases/</url>
+                            <repositoryId>releases</repositoryId>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-
 </project>
