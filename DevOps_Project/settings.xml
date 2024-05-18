@@ -1,12 +1,25 @@
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <!-- Define server credentials -->
+    <servers>
+        <server>
+            <id>snapshots</id>
+            <username>admin</username>
+            <password>admin</password>
+        </server>
+        <server>
+            <id>releases</id>
+            <username>admin</username>
+            <password>admin</password>
+        </server>
+    </servers>
+
+    <!-- Define Maven profiles for snapshot and release deployments -->
     <profiles>
         <profile>
             <id>nexus-deploy-snapshots</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <repositories>
                 <repository>
                     <id>snapshots</id>
@@ -19,13 +32,6 @@
                     </snapshots>
                 </repository>
             </repositories>
-            <servers>
-                <server>
-                    <id>snapshots</id>
-                    <username>admin</username>
-                    <password>admin</password>
-                </server>
-            </servers>
         </profile>
         <profile>
             <id>nexus-deploy-releases</id>
@@ -41,13 +47,6 @@
                     </snapshots>
                 </repository>
             </repositories>
-            <servers>
-                <server>
-                    <id>releases</id>
-                    <username>admin</username>
-                    <password>admin</password>
-                </server>
-            </servers>
         </profile>
     </profiles>
 </settings>

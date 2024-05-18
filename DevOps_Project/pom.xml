@@ -10,7 +10,7 @@
     </parent>
     <groupId>tn.esprit</groupId>
     <artifactId>DevOps_Project</artifactId>
-    <version>1.0-RELEASE</version>
+    <version>1.2-SNAPSHOT</version>
     <name>DevOps_Project</name>
     <description>DevOps_Project</description>
     <properties>
@@ -69,7 +69,7 @@
         </plugins>
     </build>
 
-<distributionManagement>
+    <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
             <url>http://localhost:8081/repository/maven-snapshots/</url>
@@ -83,9 +83,6 @@
     <profiles>
         <profile>
             <id>nexus-deploy-snapshots</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -117,4 +114,5 @@
             </build>
         </profile>
     </profiles>
+
 </project>

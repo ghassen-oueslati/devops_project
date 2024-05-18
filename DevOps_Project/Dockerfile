@@ -10,6 +10,6 @@ RUN mvn dependency:get -DremoteRepositories=${NEXUS_URL} -DgroupId=${GROUP_ID} -
 
 FROM openjdk:11-jre-slim
 WORKDIR /app
-COPY --from=downloader /app/${ARTIFACT_ID}-${VERSION}.jar ./app.jar
+COPY --from=downloader /app/*.jar ./app.jar
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]

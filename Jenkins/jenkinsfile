@@ -67,7 +67,7 @@ pipeline {
                         } else {
                             sh '''
                                 mvn clean deploy -DskipTests -P nexus-deploy-releases -s settings.xml
-                            '''
+                            ''' 
                         }
                     }
                 }
