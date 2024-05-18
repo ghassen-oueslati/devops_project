@@ -11,7 +11,8 @@ pipeline {
         POM_VERSION = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
         MAVEN_REPO_USERNAME = 'admin'
         MAVEN_REPO_PASSWORD = 'admin'
-        NEXUS_URL = 'http://localhost:8081/repository/maven-snapshots'
+        NEXUS_SNAPSHOT_URL = 'http://localhost:8081/repository/maven-snapshots'
+        NEXUS_RELEASE_URL = 'http://localhost:8081/repository/maven-releases'
         GROUP_ID = 'tn.esprit'
         ARTIFACT_ID = 'DevOps_Project'
     }
@@ -50,7 +51,17 @@ pipeline {
             steps {
                 dir('DevOps_Project') {
                     script {
-                        sh 'mvn clean deploy -P nexus-deploy'
+                        if (POM_VERSION.endsWith('-SNAPSHOT')) {
+                            sh '''
+                                mvn clean deploy -DskipTests -P nexus-deploy \
+                                -DaltDeploymentRepository=snapshot-repo::default::${NEXUS_SNAPSHOT_URL}
+                            '''
+                        } else {
+                            sh '''
+                                mvn clean deploy -DskipTests -P nexus-deploy \
+                                -DaltDeploymentRepository=release-repo::default::${NEXUS_RELEASE_URL}
+                            '''
+                        }
                     }
                 }
             }
@@ -60,7 +71,7 @@ pipeline {
                 script {
                     sh '''
                         cd DevOps_Project
-                        docker build --build-arg VERSION=${POM_VERSION} --build-arg NEXUS_URL=${NEXUS_URL} --build-arg GROUP_ID=${GROUP_ID} --build-arg ARTIFACT_ID=${ARTIFACT_ID} -t ${DOCKER_IMAGE_NAME}:${POM_VERSION} .
+                        docker build --build-arg VERSION=${POM_VERSION} --build-arg NEXUS_URL=${NEXUS_SNAPSHOT_URL} --build-arg GROUP_ID=${GROUP_ID} --build-arg ARTIFACT_ID=${ARTIFACT_ID} -t ${DOCKER_IMAGE_NAME}:${POM_VERSION} .
                         docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
                         docker push ${DOCKER_IMAGE_NAME}:${POM_VERSION}
                     '''
