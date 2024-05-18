@@ -21,10 +21,13 @@ pipeline {
         }
         stage('Echo POM Version') {
             steps {
+                dir('DevOps_Project'){
                 script {
                     POM_VERSION = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true)
                     echo "POM Version: ${POM_VERSION}"
                 }
+            }
+
             }
         }
         stage('Code Compile') {
