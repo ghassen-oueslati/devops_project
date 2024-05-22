@@ -1,3 +1,4 @@
+# Stage 1: Download JAR from Nexus using Maven
 FROM maven:3.8.1-openjdk-11-slim AS downloader
 
 ARG VERSION
@@ -13,6 +14,7 @@ COPY pom.xml .
 RUN mvn dependency:get -DremoteRepositories=http://${HOST_IP}:${NEXUS_PORT}/repository/maven-public -DgroupId=${GROUP_ID} -DartifactId=${ARTIFACT_ID} -Dversion=${VERSION} -Dtransitive=false && \
     mvn dependency:copy -Dartifact=${GROUP_ID}:${ARTIFACT_ID}:${VERSION} -DoutputDirectory=.
 
+# Stage 2: Build final image with the downloaded JAR
 FROM openjdk:11-jre-slim
 
 WORKDIR /app
