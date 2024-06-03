@@ -11,7 +11,7 @@
 9. **Push Docker Image to DockerHub**
 10. **Deploy Using Docker-Compose**:
     - Spring
-    - Angular
+    - Angular 
     - MySQL
 11. **Test Application Services**:
     - Use Angular interface to add and retrieve a line (Postman/Swagger for fallback).
