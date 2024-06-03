@@ -11,6 +11,7 @@ services:
       - ./volumes/sonarqube_temp:/opt/sonarqube/temp
     networks:
       - devops_network
+
   nexus:
     image: sonatype/nexus3:latest
     container_name: nexus
@@ -24,6 +25,7 @@ services:
 
 networks:
   devops_network:
+    external: true
 
 volumes:
   jenkins_home:

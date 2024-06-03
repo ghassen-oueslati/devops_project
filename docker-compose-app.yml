@@ -44,4 +44,5 @@ services:
 
 
 networks:
-  app_network:
+  devops_network:
+    external: true
