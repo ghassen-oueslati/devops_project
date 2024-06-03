@@ -1,6 +1,4 @@
-# Pipeline Steps
-
-Ensure your pipeline includes the following stages:
+# Devops Project
 
 1. **Retrieve Project from GitHub/GitLab**
 2. **Create Project Deliverable**
