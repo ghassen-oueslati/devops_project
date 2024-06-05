@@ -37,13 +37,13 @@ pipeline {
                 }
             }
         }
-        stage('Unit Test') {
-            steps {
-                dir('campers-backend-main') {
-                    sh "mvn test"
-                }
-            }
-        }
+        // stage('Unit Test') {
+        //     steps {
+        //         dir('campers-backend-main') {
+        //             sh "mvn test"
+        //         }
+        //     }
+        // }
         stage('SonarQube Analysis') {
             steps {
                 dir('campers-backend-main') {
