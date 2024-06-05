@@ -11,7 +11,7 @@ services:
     ports:
       - "3307:3306"
     networks:
-      - app_network
+      - devops_network
     volumes:
       - ./volumes/mysql_data:/var/lib/mysql
   phpmyadmin:
@@ -24,7 +24,7 @@ services:
     ports:
       - "8084:80"
     networks:
-      - app_network
+      - devops_network
     depends_on:
       - mysql
 
@@ -38,7 +38,7 @@ services:
       spring.datasource.username: root
       spring.datasource.password: ""
     networks:
-      - app_network
+      - devops_network
     depends_on:
       - mysql
 
