@@ -78,9 +78,11 @@ pipeline {
                 script {
                     dir('campers-backend-main') {
                         sh """
-                            docker build -t "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}" .
+                            docker build -t "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}"  .
+                            docker tag "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}" "${env.DOCKER_IMAGE_NAME}:latest"
                             docker login -u "${env.DOCKER_HUB_USERNAME}" -p "${env.DOCKER_HUB_PASSWORD}"
                             docker push "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}"
+                            docker push "${env.DOCKER_image_name}:latest"
                         """
                     }
                 }

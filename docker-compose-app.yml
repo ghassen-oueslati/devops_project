@@ -29,7 +29,7 @@ services:
       - mysql
 
   spring-app:
-    image: ghassen52/devops_project 
+    image: ghassen52/devops_project:latest
     ports:
       - "8085:8080"
     environment:
@@ -37,6 +37,7 @@ services:
       server.port: 8080
       spring.datasource.username: root
       spring.datasource.password: ""
+      logging.level.root: INFO
     networks:
       - devops_network
     depends_on:
