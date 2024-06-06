@@ -1,5 +1,5 @@
 # Devops Project
- 
+  
 1. **Retrieve Project from GitHub/GitLab**
 2. **Create Project Deliverable**
 3. **Run Unit Tests**
