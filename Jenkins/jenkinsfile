@@ -19,53 +19,53 @@ pipeline {
                 git branch: 'ghassen', changelog: false, poll: false, url: 'https://github.com/khaliljammazi/campers-backend'
             }
         }
-        stage('Echo POM Version') {
-            steps {
+        // stage('Echo POM Version') {
+        //     steps {
                 
-                script {
-                    env.POM_VERSION = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true)
-                    echo "POM Version: ${env.POM_VERSION}"
-                }
+        //         script {
+        //             env.POM_VERSION = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true)
+        //             echo "POM Version: ${env.POM_VERSION}"
+        //         }
 
-            }
-        }
-        stage('Code Compile') {
-            steps {
-                    sh 'mvn clean compile'
-            }
-        }
-        stage('Unit Test') {
-            steps {
-                    sh "mvn test"
-                }
-        }
-        stage('SonarQube Analysis') {
-            steps {
-                    script {
-                        withSonarQubeEnv() {
-                            sh "mvn clean verify sonar:sonar -Dsonar.projectKey=camers-backend -Dsonar.projectName='camers-backend'"
-                        }
-                    }
+        //     }
+        // }
+        // stage('Code Compile') {
+        //     steps {
+        //             sh 'mvn clean compile'
+        //     }
+        // }
+        // stage('Unit Test') {
+        //     steps {
+        //             sh "mvn test"
+        //         }
+        // }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //             script {
+        //                 withSonarQubeEnv() {
+        //                     sh "mvn clean verify sonar:sonar -Dsonar.projectKey=camers-backend -Dsonar.projectName='camers-backend'"
+        //                 }
+        //             }
                 
-            }
-        }
-        stage('Deploy to Maven Repository') {
-            steps {
-                    script {
-                        echo "POM Version: ${env.POM_VERSION}"
-                        if (POM_VERSION.endsWith('-SNAPSHOT')) {
-                            sh '''
-                                mvn clean deploy -DskipTests -P nexus-deploy-snapshots -s settings.xml
-                            '''
-                        } else {
-                            sh '''
-                                mvn clean deploy -DskipTests -P nexus-deploy-releases -s settings.xml
-                            ''' 
-                        }
-                    }
+        //     }
+        // }
+        // stage('Deploy to Maven Repository') {
+        //     steps {
+        //             script {
+        //                 echo "POM Version: ${env.POM_VERSION}"
+        //                 if (POM_VERSION.endsWith('-SNAPSHOT')) {
+        //                     sh '''
+        //                         mvn clean deploy -DskipTests -P nexus-deploy-snapshots -s settings.xml
+        //                     '''
+        //                 } else {
+        //                     sh '''
+        //                         mvn clean deploy -DskipTests -P nexus-deploy-releases -s settings.xml
+        //                     ''' 
+        //                 }
+        //             }
                 
-            }
-        }
+        //     }
+        // }
         stage('Build and Push Image') {
             steps {
                 script {
