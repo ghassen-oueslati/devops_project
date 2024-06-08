@@ -16,48 +16,41 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/ghassen-oueslati/devops_project'
+                git branch: 'ghassen', changelog: false, poll: false, url: 'https://github.com/khaliljammazi/campers-backend'
             }
         }
         stage('Echo POM Version') {
             steps {
-                dir('campers-backend-main'){
+                
                 script {
                     env.POM_VERSION = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true)
                     echo "POM Version: ${env.POM_VERSION}"
                 }
-            }
 
             }
         }
         stage('Code Compile') {
             steps {
-                dir('campers-backend-main') {
                     sh 'mvn clean compile'
-                }
             }
         }
         stage('Unit Test') {
             steps {
-                dir('campers-backend-main') {
                     sh "mvn test"
                 }
-            }
         }
         stage('SonarQube Analysis') {
             steps {
-                dir('campers-backend-main') {
                     script {
                         withSonarQubeEnv() {
                             sh "mvn clean verify sonar:sonar -Dsonar.projectKey=camers-backend -Dsonar.projectName='camers-backend'"
                         }
                     }
-                }
+                
             }
         }
         stage('Deploy to Maven Repository') {
             steps {
-                dir('campers-backend-main') {
                     script {
                         echo "POM Version: ${env.POM_VERSION}"
                         if (POM_VERSION.endsWith('-SNAPSHOT')) {
@@ -70,13 +63,13 @@ pipeline {
                             ''' 
                         }
                     }
-                }
+                
             }
         }
         stage('Build and Push Image') {
             steps {
                 script {
-                    dir('campers-backend-main') {
+
                         sh """
                             docker build -t "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}"  .
                             docker tag "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}" "${env.DOCKER_IMAGE_NAME}:latest"
@@ -84,7 +77,7 @@ pipeline {
                             docker push "${env.DOCKER_IMAGE_NAME}:${env.POM_VERSION}"
                             docker push "${env.DOCKER_image_name}:latest"
                         """
-                    }
+                    
                 }
             }
         }
