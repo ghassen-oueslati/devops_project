@@ -42,13 +42,6 @@ services:
       - devops_network
     depends_on:
       - mysql
-
-  angular-app:
-    image: angular 
-    ports:
-      - "8086:80"
-    networks:
-      - devops_network
 networks:
   devops_network:
     external: true
