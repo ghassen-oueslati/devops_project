@@ -16,3 +16,10 @@ scrape_configs:
   basic_auth:
     username: "admin"
     password: "adminsonar"
+- job_name: 'nexus'
+  metrics_path: '/service/metrics/prometheus'
+  static_configs:
+  - targets: ['nexus:8081']
+  basic_auth:
+    username: "admin"
+    password: "admin"
